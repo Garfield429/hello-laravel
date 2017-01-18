@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -24,8 +25,8 @@ class UsersController extends Controller
            'password' => $request->password,
        ]);
 
+       Auth::login($user);
        session()->flash('success', '注册成功，欢迎来到laravel');
-
        return redirect()->route('users.show', [$user]);
     }
 
@@ -39,5 +40,4 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         return view('users.show', compact('user'));
     }
-
 }
